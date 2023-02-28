@@ -8,19 +8,37 @@ class ProjectController < AppController
     end
 
     # @method: Add a new TO-DO to the DB
-    post '/project/create' do
+    post '/projects/create' do
+        data = JSON.parse(request.body.read)
         begin
-            project = Project.create( self.data(create: true) )
-            json_response(code: 201, data: todo)
+            project = Project.create(data)
+            
+            project.to_json
+
         rescue => e
-            json_response(code: 422, data: { error: e.message })
+            { error: e.message }.to_json
         end
+
     end
 
     # @method: Display all projects
     get '/projects' do
         projects = Project.all
-        json_response(data: projects)
+        projects.to_json
+    end
+
+    post '/skills/create' do
+        data = JSON.parse(request.body.read)
+
+        begin
+            skill = Skill.create(data)
+            skill.to_json
+        rescue => e
+            { error: e.message }.to_json
+        end
+
+
+
     end
 
     # @view: Renders an erb file which shows all projects
@@ -33,13 +51,13 @@ class ProjectController < AppController
           }
         }
         @i = 1
-        erb_response :todos
+        erb_response :projects
     end
 
     # @method: Update existing project according to :id
     put '/projects/update/:id' do
         begin
-            project = Project.find(self.todo_id)
+            project = Project.find(self.project_id)
             project.update(self.data)
             json_response(data: { message: "todo updated successfully" })
         rescue => e
@@ -50,7 +68,7 @@ class ProjectController < AppController
     # @method: Delete project based on :id
     delete '/projects/destroy/:id' do
         begin
-            project = Project.find(self.todo_id)
+            project = Project.find(self.project_id)
             project.destroy
             json_response(data: { message: "todo deleted successfully" })
         rescue => e
