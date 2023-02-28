@@ -4,12 +4,8 @@ default: &default
 
 development:
   <<: *default
-  database: db/todos-dev.sqlite3
+  database: db/portfolio-dev.sqlite3
 
 production:
   <<: *default
-  database: db/todos-prod.db
-
-test:
-  <<: *default
-  database: db/todos-test.sqlite3
+  database: db/portfolio-prod.db
