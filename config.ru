@@ -1,4 +1,4 @@
 require_relative './config/environment'
 
-use TodoController
+use ProjectController
 run UserController
