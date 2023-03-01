@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
   # retrieve password from hash
   def password
-    @password ||= Password.new(password_hash)
+    @password ||= Password.new(password_hashes)
   end
 
   # create the password hash

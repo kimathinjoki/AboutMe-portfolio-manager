@@ -47,11 +47,11 @@ class ProjectController < AppController
         @projects = Project.all.map { |project|
           {
             project: project,
-            badge: project_status_badge(project.status)
+            badge: project.status
           }
         }
         @i = 1
-        erb_response :projects
+        erb_response :projects 
     end
 
     # @method: Update existing project according to :id

@@ -25,7 +25,7 @@ class UserController < AppController
   post '/auth/login' do
     begin
       user_data = User.find_by(email: @user['email'])
-      if user_data.password == @user['password']
+      if user_data.password_hashes == @user['password_hashes']
         json_response(code: 200, data: {
           id: user_data.id,
           email: user_data.email

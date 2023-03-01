@@ -4,7 +4,7 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       ## Database authenticatable
       t.string :name
       t.string :email
-      t.string :password
+      t.string :password_hashes
       t.timestamps
     end
   end
