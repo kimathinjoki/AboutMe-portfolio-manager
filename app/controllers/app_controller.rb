@@ -27,7 +27,7 @@ class AppController < Sinatra::Base
       [ code, { data: data, message: status }.to_json ]
     end
   end
-``
+
   # @api: Format all common JSON error responses
   def error_response(code, e)
     json_response(code: code, data: { error: e.message })
