@@ -38,6 +38,12 @@ class UserController < AppController
     end
   end
 
+  get '/users' do
+    user = User.all
+    user.to_json
+  end
+
+
   private
 
   # @helper: parse user JSON data

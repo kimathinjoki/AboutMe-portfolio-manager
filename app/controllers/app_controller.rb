@@ -13,7 +13,7 @@ class AppController < Sinatra::Base
   end
 
   options "*" do
-    response.headers["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Methods"] = "GET, PUT, POST, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
     response.headers["Access-Control-Allow-Origin"] = "*"
     200
@@ -27,7 +27,7 @@ class AppController < Sinatra::Base
       [ code, { data: data, message: status }.to_json ]
     end
   end
-
+``
   # @api: Format all common JSON error responses
   def error_response(code, e)
     json_response(code: code, data: { error: e.message })
