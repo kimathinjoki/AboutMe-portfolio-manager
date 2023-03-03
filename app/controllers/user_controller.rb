@@ -43,6 +43,11 @@ class UserController < AppController
     user.to_json
   end
 
+  get '/users/last' do
+    user = User.all.last
+    user.to_json
+  end
+
 
   private
 
