@@ -2,12 +2,7 @@ class ProjectController < AppController
 
     set :views, './app/views'
 
-    # @method: Display a small welcome message
-    get '/hello' do
-        "Our very first controller"
-    end
-
-    # @method: Add a new TO-DO to the DB
+    # Add a new project to the database
     post '/projects/create' do
         data = JSON.parse(request.body.read)
         begin
@@ -21,28 +16,23 @@ class ProjectController < AppController
 
     end
 
-    # @method: Display all projects
+    # Display all projects
     get '/projects' do
         projects = Project.all
         projects.to_json
     end
 
 
+# gets the projects associated by a specific user
+    get '/user/projects/:id' do
 
-    # @view: Renders an erb file which shows all projects
-    # erb has content_type because we want to override the default set above
-    get '/' do
-        @projects = Project.all.map { |project|
-          {
-            project: project,
-            badge: project.status
-          }
-        }
-        @i = 1
-        erb_response :projects 
+        user = User.find(params[:id].to_i)
+        userProjects = user.projects
+        userProjects.to_json
+
     end
 
-    # @method: Update existing project according to :id
+    # Update existing project according to :id
     put '/projects/update/:id' do
         begin
             project = Project.find(self.project_id)
@@ -53,7 +43,7 @@ class ProjectController < AppController
         end
     end
 
-    # @method: Delete project based on :id
+    # Delete project based on :id
     delete '/projects/destroy/:id' do
         begin
             project = Project.find(self.project_id)
