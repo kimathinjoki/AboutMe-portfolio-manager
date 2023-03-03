@@ -27,19 +27,7 @@ class ProjectController < AppController
         projects.to_json
     end
 
-    post '/skills/create' do
-        data = JSON.parse(request.body.read)
 
-        begin
-            skill = Skill.create(data)
-            skill.to_json
-        rescue => e
-            { error: e.message }.to_json
-        end
-
-
-
-    end
 
     # @view: Renders an erb file which shows all projects
     # erb has content_type because we want to override the default set above
@@ -83,7 +71,7 @@ class ProjectController < AppController
     def data(create: false)
         payload = JSON.parse(request.body.read)
         if create
-            payload["create_at"] = Time.now
+            payload["create_ast"] = Time.now
         end
         payload
     end
