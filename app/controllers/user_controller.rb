@@ -1,8 +1,7 @@
-# frozen_string_literal: true
 
 class UserController < AppController
 
-  # @helper: read JSON body
+  # reads JSON body
   before do
     begin
       @user = user_data
@@ -11,23 +10,24 @@ class UserController < AppController
     end
   end
 
-  #@method: create a new user
-  post '/auth/register' do
+  # signs up a new user
+  post '/signup' do
     begin
-      x = User.create(@user)
-      json_response(code: 201, data: x)
+      person = User.create(@user)
+      json_response(code: 201, data: person)
     rescue => e
       error_response(422, e)
     end
   end
 
-  #@method: log in user using email and password
-  post '/auth/login' do
+  #logs in user using email and password
+  post '/signin' do
     begin
       user_data = User.find_by(email: @user['email'])
       if user_data.password_hash == @user['password_hash']
         json_response(code: 200, data: {
           id: user_data.id,
+          name: user_data.name,
           email: user_data.email
         })
       else
@@ -51,7 +51,7 @@ class UserController < AppController
 
   private
 
-  # @helper: parse user JSON data
+  # parse user JSON data
   def user_data
     JSON.parse(request.body.read)
   end
