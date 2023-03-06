@@ -8,7 +8,7 @@ class ProjectController < AppController
         begin
             project = Project.create(data)
             
-            project.to_json
+            json_response(code: 201, data: project)
 
         rescue => e
             { error: e.message }.to_json
@@ -18,7 +18,7 @@ class ProjectController < AppController
 
     # Display all projects
     get '/projects' do
-        projects = Project.all
+        projects = Project.all.order(id: :desc)
         projects.to_json
     end
 
@@ -35,11 +35,11 @@ class ProjectController < AppController
     # Update existing project according to :id
     put '/projects/update/:id' do
         begin
-            project = Project.find(self.project_id)
+            project = Project.find(params[:id].to_i)
             project.update(self.data)
-            json_response(data: { message: "todo updated successfully" })
+            response(data: { message: "Project updated successfully" })
         rescue => e
-            json_response(code: 422 ,data: { error: e.message })
+            response(code: 422 ,data: { error: e.message })
         end
     end
 
@@ -48,44 +48,22 @@ class ProjectController < AppController
         begin
             project = Project.find(self.project_id)
             project.destroy
-            json_response(data: { message: "todo deleted successfully" })
+            response(data: { message: "Project deleted successfully" })
         rescue => e
-          json_response(code: 422, data: { error: e.message })
+          response(code: 422, data: { error: e.message })
         end
     end
 
 
     private
 
-    # @helper: format body data
-    def data(create: false)
-        payload = JSON.parse(request.body.read)
-        if create
-            payload["create_ast"] = Time.now
-        end
-        payload
+    #  format body data
+    def data()
+        dt = JSON.parse(request.body.read)
+        dt
     end
 
-    # @helper: retrieve to-do :id
-    def project_id
-        params['id'].to_i
-    end
-
-    # @helper: format status style
-    def project_status_badge(status)
-        case status
-            when 'CREATED'
-                'bg-info'
-            when 'ONGOING'
-                'bg-success'
-            when 'CANCELLED'
-                'bg-primary'
-            when 'COMPLETED'
-                'bg-warning'
-            else
-                'bg-dark'
-        end
-    end
+    
 
 
 end
