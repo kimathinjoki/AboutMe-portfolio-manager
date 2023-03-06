@@ -30,5 +30,5 @@ end
 group :test do
     gem 'rack-test', '~> 2.0', '>= 2.0.2'
     gem 'rspec', '~> 3.12'
-    gem 'faker'
+  
 end
