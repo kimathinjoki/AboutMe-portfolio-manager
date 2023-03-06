@@ -1,6 +1,5 @@
 class ProjectController < AppController
 
-    set :views, './app/views'
 
     # Add a new project to the database
     post '/projects/create' do
@@ -37,20 +36,20 @@ class ProjectController < AppController
         begin
             project = Project.find(params[:id].to_i)
             project.update(self.data)
-            response(data: { message: "Project updated successfully" })
+            json_response(data: { message: "Project updated successfully" })
         rescue => e
-            response(code: 422 ,data: { error: e.message })
+            json_response(code: 422 ,data: { error: e.message })
         end
     end
 
     # Delete project based on :id
     delete '/projects/destroy/:id' do
         begin
-            project = Project.find(self.project_id)
+            project = Project.find(params[:id].to_i)
             project.destroy
-            response(data: { message: "Project deleted successfully" })
+            json_response(data: { message: "Project deleted successfully" })
         rescue => e
-          response(code: 422, data: { error: e.message })
+          json_response(code: 422, data: { error: e.message })
         end
     end
 
