@@ -19,8 +19,14 @@ class SkillController < AppController
         
     end
 
-    # gets the skills of a certain user and limits them to max of 10
-    get '/skills/:id' do
+    get '/user/skills/:id' do
+        user = User.find(params[:id].to_i)
+        skill = user.skills
+        skill.to_json
+    end
+
+    # creates the skills of a certain user and limits them to max of 10
+    post '/skills/:id' do
         user = User.find(self.user_id)
         # rescue => e
         #     { error: e.message }.to_json
@@ -29,10 +35,11 @@ class SkillController < AppController
         count_skills = User.find(params[:id].to_i).skills.count
 
         if count_skills < 10
+            data = JSON.parse(request.body.read)
             skill = User.find(params[:id].to_i).skills.create(data)
             skill.to_json
          else
-            {message: "You can only have 10 skills."}.to_json
+            {message: "You can only have maximum of 10 skills."}.to_json
         end
 
     end
