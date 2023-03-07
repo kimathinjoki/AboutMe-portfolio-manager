@@ -2,7 +2,7 @@ class ProjectController < AppController
 
 
     # Add a new project to the database
-    post '/projects/create' do
+    post '/projects/create/' do
         data = JSON.parse(request.body.read)
         begin
             project = Project.create(data)

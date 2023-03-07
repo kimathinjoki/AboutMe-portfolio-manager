@@ -7,22 +7,21 @@ class SkillController < AppController
         skills.to_json
     end
 
-    # post '/skills/create' do
-    #     data = JSON.parse(request.body.read)
+    post '/skills/create' do
+        data = JSON.parse(request.body.read)
 
-    #     begin
-    #         skill = Skill.create(data)
-    #         skill.to_json
-    #     rescue => e
-    #         { error: e.message }.to_json
-    #     end
+        begin
+            skill = Skill.create(data)
+            skill.to_json
+        rescue => e
+            { error: e.message }.to_json
+        end
         
-    # end
+    end
 
     # gets the skills of a certain user and limits them to max of 10
     get '/skills/:id' do
         user = User.find(self.user_id)
-claon
         # rescue => e
         #     { error: e.message }.to_json
         # end
