@@ -48,6 +48,11 @@ class UserController < AppController
     user.to_json
   end
 
+  get '/user/:id' do
+    user = User.find(params[:id].to_i)
+    user.to_json
+  end
+
 
   private
 
